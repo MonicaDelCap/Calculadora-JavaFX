@@ -2,182 +2,78 @@ package com.example.calculadora;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CalculadorModelo {
 
-
-    private double resultadoFinal =0;
-    //String ristra ="";
-    private ArrayList<Double> numeros = new ArrayList<>();
-    private ArrayList<String> simbolos = new ArrayList<>();
-
-
-    public  DecimalFormat calcular (String expresionCalcular){
-
-         setResultadoFinal(0);
-        //ristra=calculadoraCodigo.getPanelTexto().getText();
-        String numeroActual="";
-        numeros=new ArrayList<>();
-        simbolos=new ArrayList<>();
-
-        //Aqui los guardo en cada variable
-        for (int i = 0; i < expresionCalcular.length(); i++) {
-
-            char lugar = expresionCalcular.charAt(i);
-
-            if (i==expresionCalcular.length()-1){
-                numeroActual=numeroActual+lugar;
-                numeros.add(Double.valueOf(numeroActual));
-                numeroActual="";
-
-            } else if (isNumber(lugar)||(lugar==46)) {
-
-                numeroActual=numeroActual+lugar;
-
-
-
-            } else {
-                simbolos.add(String.valueOf(lugar));
-                numeros.add(Double.valueOf(numeroActual));
-                numeroActual="";
-            }
-
-
-
+    public String resolve(String operacion) {
+        if (operacion.startsWith("")) {
+            operacion = new StringBuilder(operacion).insert(0, "0").toString();
         }
+        String [] dm = operacion.split("[+-]");
+        List<String> dimu = new ArrayList<>(Arrays.asList(dm));
+        dimu = dimu.stream().map(o -> String.valueOf(resolveMultDiv(o))).collect(Collectors.toList());
 
-        //Recorro la variable simbolos para ver si hay signos de multiplicacion o division
+        String [] sr = operacion.split("[^\\+\\-]");
+        List<String> sure = new ArrayList<>(Arrays.asList(sr));
+        sure.removeIf(String::isEmpty);
 
-        ArrayList<Integer> simbolosquesonesos=new ArrayList<>();
-        for (int i = 0; i < simbolos.size(); i++) {
-
-            if (simbolos.get(i).equals("x")){
-
-                double variable1=numeros.get(i);
-                double variable2=numeros.get(i+1);
-                double ecuacion= variable1*variable2;
-                numeros.remove(i);
-                numeros.remove(i);
-                numeros.add(i,ecuacion);
-                // simbolosquesonesos.add(i);
-                simbolos.remove(i);
-                if (i!=0){
-                    i=i-1;
-                }else {
-                    i=0;
-                }
-
-            }else if (simbolos.get(i).equals("/")){
-
-                double variable1=numeros.get(i);
-                double variable2=numeros.get(i+1);
-                double ecuacion= variable1/variable2;
-                numeros.remove(i);
-                numeros.remove(i);
-                numeros.add(i,ecuacion);
-                //simbolosquesonesos.add(i);
-                simbolos.remove(i);
-
-
-                if (i!=0){
-                    i=i-1;
-                }else {
-                    i=0;
-                }
-
-            }
-
-
-        }
-
-        //Suma final de los numeros
-
-        while (numeros.size()>0) {
-            if (numeros.size() >= 2) {
-                double variable1 = numeros.get(0);
-                double variable2 = numeros.get(0 + 1);
-                double resultado = 0;
-
-                switch (simbolos.get(0)) {
-                    case "+":
-                        resultado = variable1 + variable2;
-                        resultadoFinal = resultadoFinal + resultado;
-                        numeros.remove(0);
-                        numeros.remove(0);
-                        simbolos.remove(0);
-                        resultado = 0;
-                        break;
-                    case "-":
-                        resultado = variable1 - variable2;
-                        if (resultadoFinal ==0){
-                            resultadoFinal =resultado;
-                        }else {
-                            resultadoFinal = resultadoFinal - resultado;
-
-                        }
-                        numeros.remove(0);
-                        numeros.remove(0 );
-                        simbolos.remove(0);
-
-                        resultado = 0;
-                        break;
-                }
-            } else if ((numeros.size() == 1)&&(simbolos.size()==1)) {
-
-                switch (simbolos.get(0)) {
-                    case "+":
-                        resultadoFinal = resultadoFinal + numeros.get(0);
-                        numeros.remove(0);
-                        break;
-                    case "-":
-                        resultadoFinal = resultadoFinal - numeros.get(0);
-                        numeros.remove(0);
-
-                        break;
-                }
-            }else {
-                resultadoFinal =numeros.get(0);
-                numeros.remove(0);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < dimu.size(); i++) {
+            sb.append(dimu.get(i));
+            if (i != dimu.size()-1) {
+                sb.append(sure.get(i));
             }
         }
-        DecimalFormat finalCount= new DecimalFormat("0.0000");
-
-        return finalCount;
-
+        return String.valueOf(resolveMultDiv(sb.toString()));
     }
 
-    public boolean isNumber(char letra){
+    public static double resolveMultDiv(String operation) {
+        String[] auxNums = operation.split("[x/+-]");
+        String [] auxSimbs = operation.split("[0-9.]+");
 
-        boolean esNumero=false;
-        if (letra<58&&letra>47) {
-            esNumero=true;
-        }
+        List<Double> nums = Arrays.stream(auxNums).map(Double::parseDouble).collect(Collectors.toList());
+        List<String> simbs = new ArrayList<>(List.of(auxSimbs));
+        simbs.removeIf(String::isEmpty);
 
-
-        return esNumero;
+        double result = nums.get(0);
+        boolean end = false;
+        do {
+            if (simbs.size() == 0) {
+                break;
+            }
+            for (int i = 0; i < simbs.size(); i++) {
+                double currentNum = nums.get(0);
+                double nxtNum = nums.get(1);
+                if (simbs.get(i).equals("x")) {
+                    result = currentNum*nxtNum;
+                } else if (simbs.get(i).equals("/")) {
+                    result = currentNum/nxtNum;
+                } else if (simbs.get(i).equals("+")) {
+                    result = currentNum+nxtNum;
+                } else if (simbs.get(i).equals("-")) {
+                    result = currentNum-nxtNum;
+                }
+                nums.remove(currentNum);
+                nums.remove(nxtNum);
+                nums.add(0, result);
+                if (nums.size() == 1) {
+                    end = true;
+                    break;
+                }
+            }
+        } while (!end);
+        return result;
     }
 
-    public double getResultadoFinal() {
-        return resultadoFinal;
+    public static boolean isFloatNum(String s) {
+        return "1234567890.".contains(s);
     }
 
-    public void setResultadoFinal(double resultadoFinal) {
-        this.resultadoFinal = resultadoFinal;
+    public static boolean isSimbolo(char c) {
+        return "x+-/".indexOf(c) != -1;
     }
 
-    public ArrayList<Double> getNumeros() {
-        return numeros;
-    }
-
-    public void setNumeros(ArrayList<Double> numeros) {
-        this.numeros = numeros;
-    }
-
-    public ArrayList<String> getSimbolos() {
-        return simbolos;
-    }
-
-    public void setSimbolos(ArrayList<String> simbolos) {
-        this.simbolos = simbolos;
-    }
 }
