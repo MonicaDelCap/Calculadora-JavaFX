@@ -3,7 +3,7 @@ package com.example.calculadora;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class CalculadorExpresiones {
+public class CalculadorModelo {
 
 
     private double resultadoFinal =0;

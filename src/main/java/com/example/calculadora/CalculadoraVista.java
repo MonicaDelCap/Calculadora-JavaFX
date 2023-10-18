@@ -13,7 +13,7 @@ public class CalculadoraVista extends Application {
 
     @FXML
     private TextArea panelTexto= new TextArea();
-    CalculadorExpresiones calculadoraCodigo;
+    CalculadorModelo calculadoraCodigo;
 
     public CalculadoraVista(Stage stage)throws Exception{
 
