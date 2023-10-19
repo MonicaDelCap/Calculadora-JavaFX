@@ -22,6 +22,10 @@ public class Controlador {
             insertToTextField(valor);
         } else if (valor.equals("=")) {
             resolver(textField.getText());
+        } else if (valor.equals("AC")) {
+            vaciar();
+        } else {
+            borrarUltimo();
         }
     }
 
@@ -34,8 +38,24 @@ public class Controlador {
     }
 
 
-    public void resolver(String expresion){
-        textField.setText(modelo.calcular(expresion));
+    public void resolver(String expresion) {
+        if (isValidExpression(expresion)) {
+            textField.setText(modelo.calcular(expresion));
+        } else {
+            textField.setText("Expresion no soportada.");
+        }
+    }
+
+    public boolean isValidExpression(String expression) {
+        return !expression.contains("x/") && !expression.contains("/x") && !expression.contains("+x") && !expression.contains("-x") && !expression.contains("-/") && !expression.contains("+/");
+    }
+
+    public void vaciar(){
+        textField.setText("");
+    }
+
+    public void borrarUltimo() {
+        textField.setText(textField.getText().substring(0, textField.getText().length()-1));
     }
 
     /*
@@ -47,10 +67,7 @@ public class Controlador {
         vista.getPanelTexto().setText(vista.getPanelTexto().getText()+valor);
     }
 
-    @FXML
-    public void botonAC(MouseEvent mouseEvent){
-        vista.getPanelTexto().setText("");
-    }
+
 
     @FXML
     public void borrar(MouseEvent mouseEvent){
