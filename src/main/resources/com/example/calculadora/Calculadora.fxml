@@ -4,9 +4,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="404.0" prefWidth="325.0" style="-fx-background-color: beige;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.calculadora.CalculadoraControllador">
+<AnchorPane prefHeight="404.0" prefWidth="325.0" style="-fx-background-color: beige;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.calculadora.Controlador">
    <children>
-      <TextField fx:id="vista" layoutX="25.0" layoutY="28.0" prefHeight="38.0" prefWidth="278.0" />
+      <TextField fx:id="textField" layoutX="25.0" layoutY="28.0" prefHeight="38.0" prefWidth="278.0" />
 
       <GridPane layoutX="14.0" layoutY="84.0" prefHeight="305.0" prefWidth="300.0">
         <columnConstraints>

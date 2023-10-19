@@ -5,41 +5,37 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
-public class CalculadoraControllador {
+public class Controlador {
 
 
-    @FXML private TextField vista;
-    private CalculadorModelo modelo;
+    @FXML private TextField textField;
+    private CalculadoraModelo modelo;
 
-    public CalculadoraControllador() {
-
-        this.modelo = new CalculadorModelo();
+    public Controlador() {
+        this.modelo = new CalculadoraModelo();
     }
 
     @FXML
     public void onAction(MouseEvent mouseEvent) {
         String valor = ((Button) mouseEvent.getSource()).getText();
         if (isNum(valor)) {
-            insertToBox(valor);
-        } else {
-            resolver(vista.getText());
+            insertToTextField(valor);
+        } else if (valor.equals("=")) {
+            resolver(textField.getText());
         }
-
-        System.out.println(vista.getText());
-
     }
 
     public boolean isNum(String valor) {
         return "0123456789x-+/.".contains(valor);
     }
 
-    public void insertToBox(String valor) {
-        vista.appendText(valor);
+    public void insertToTextField(String valor) {
+        textField.appendText(valor);
     }
 
 
     public void resolver(String expresion){
-        vista.setText(modelo.calcular(expresion));
+        textField.setText(modelo.calcular(expresion));
     }
 
     /*

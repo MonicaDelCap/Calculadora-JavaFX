@@ -9,13 +9,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class CalculadoraVista extends Application {
+public class Vista extends Application {
     @FXML
     private TextField textField = new TextField();
 
     @Override
     public void start(Stage stage) {
-        FXMLLoader fxmlLoader = new FXMLLoader(CalculadoraVista.class.getResource("Calculadora.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Vista.class.getResource("Calculadora.fxml"));
         Scene scene = null;
         try {
             scene = new Scene(fxmlLoader.load(), 320, 400);

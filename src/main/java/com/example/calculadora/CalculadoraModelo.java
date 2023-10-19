@@ -1,9 +1,9 @@
 package com.example.calculadora;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
-public class CalculadorModelo {
+public class CalculadoraModelo {
     public String calcular(String expression) {
-        expression.replace("x", "*");
+        expression = expression.replace("x", "*");
         // Crear un objeto ExpressionBuilder para construir la expresión
         ExpressionBuilder builder = new ExpressionBuilder(expression);
 
