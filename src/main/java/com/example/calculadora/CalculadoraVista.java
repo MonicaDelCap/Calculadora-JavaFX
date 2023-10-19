@@ -4,16 +4,15 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class CalculadoraVista extends Application {
     @FXML
-    private TextArea panelTexto = new TextArea();
+    private TextField textField = new TextField();
+
     @Override
     public void start(Stage stage) {
         FXMLLoader fxmlLoader = new FXMLLoader(CalculadoraVista.class.getResource("Calculadora.fxml"));
@@ -28,8 +27,8 @@ public class CalculadoraVista extends Application {
         stage.show();
     }
 
-    public TextArea getPanelTexto() {
-        return panelTexto;
+    public TextField getTextField() {
+        return textField;
     }
 
 }

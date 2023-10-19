@@ -14,6 +14,12 @@
 <junit.version>5.9.2</junit.version>  </properties>
 
   <dependencies>
+      <!-- Otras dependencias -->
+      <dependency>
+        <groupId>net.objecthunter</groupId>
+        <artifactId>exp4j</artifactId>
+        <version>0.4.8</version>
+      </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
