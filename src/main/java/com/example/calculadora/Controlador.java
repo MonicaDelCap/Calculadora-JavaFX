@@ -1,6 +1,7 @@
 package com.example.calculadora;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -39,15 +40,29 @@ public class Controlador {
 
 
     public void resolver(String expresion) {
-        if (isValidExpression(expresion)) {
+        String m;
+        try {
             textField.setText(modelo.calcular(expresion));
-        } else {
-            textField.setText("Expresion no soportada.");
+            return;
+        } catch (NumberFormatException e) {
+            m = "No se puede introducir dos puntos seguidos";
+        } catch (IllegalArgumentException e) {
+            m = "No se puede introducir dos simbolos seguidos.";
+        } catch (ArithmeticException e) {
+            m = "division entre 0 es infinito.";
         }
+        instanceVentanaError(m);
     }
 
+    public void instanceVentanaError(String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("");
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
+    }
     public boolean isValidExpression(String expression) {
-        return !expression.contains("x/") && !expression.contains("/x") && !expression.contains("+x") && !expression.contains("-x") && !expression.contains("-/") && !expression.contains("+/");
+        return !expression.contains("x/") && !expression.contains("/x") && !expression.contains("+x") && !expression.contains("-x") && !expression.contains("-/") && !expression.contains("+/") && !expression.contains("//") && !expression.contains("xx") && !expression.contains("..");
     }
 
     public void vaciar(){
