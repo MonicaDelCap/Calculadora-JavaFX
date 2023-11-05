@@ -47,9 +47,13 @@ public class Controlador {
         } catch (NumberFormatException e) {
             m = "No se puede introducir dos puntos seguidos";
         } catch (IllegalArgumentException e) {
-            m = "No se puede introducir dos simbolos seguidos.";
+            if (!isValidExpression(expresion)) {
+                m = "No se puede introducir dos simbolos incompatibles seguidos.";
+            } else {
+                m = "Numero invalido de operandos";
+            }
         } catch (ArithmeticException e) {
-            m = "division entre 0 es infinito.";
+            m = "Division entre 0 es infinito.";
         }
         instanceVentanaError(m);
     }
